@@ -12,11 +12,17 @@ const app = express();
 
 // ✅ CORS — Express v5 compatible
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://resume-ai-bice-beta.vercel.app',
-    process.env.CLIENT_URL
-  ],
+  origin: function(origin, callback) {
+    // Koi bhi vercel.app domain allow karo
+    if (!origin) return callback(null, true);
+    if (
+      origin.includes('vercel.app') ||
+      origin.includes('localhost')
+    ) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS blocked: ' + origin));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
