@@ -1,34 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-
-// ── tiny icon components (no extra lib needed) ──────────────────
-const Icon = ({ d, size = 20, color = 'currentColor' }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24"
-    fill="none" stroke={color} strokeWidth={2}
-    strokeLinecap="round" strokeLinejoin="round">
-    <path d={d} />
-  </svg>
-);
-
-const CheckIcon  = () => <Icon d="M20 6L9 17l-5-5" color="#22c55e" />;
-const LockIcon   = () => <Icon d="M12 17v-2m-4-4V9a4 4 0 018 0v2M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z" />;
-const BrainIcon  = () => <Icon d="M12 2a7 7 0 017 7c0 2.5-1 4.5-3 6l-1 5H9l-1-5C6 13.5 5 11.5 5 9a7 7 0 017-7z" />;
-const ZapIcon    = () => <Icon d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />;
-const StarIcon   = () => <Icon d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />;
-const ArrowIcon  = () => <Icon d="M5 12h14M12 5l7 7-7 7" />;
-
 // ── Navbar ───────────────────────────────────────────────────────
 const Navbar = ({ user, onLogout, onNavigate }) => (
   <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
     <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center">
-          <BrainIcon />
+      <div className="flex items-center gap-2 cursor-pointer" onClick={() => onNavigate('/')}>
+        <div className="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+          AI
         </div>
         <span className="font-bold text-lg text-gray-900">Resume<span className="text-brand-500">AI</span></span>
       </div>
       <div className="hidden md:flex items-center gap-6 text-sm text-gray-600">
-        <a href="#how" className="hover:text-brand-500 transition-colors">Kaise kaam karta hai</a>
+        <a href="#how" className="hover:text-brand-500 transition-colors">How it works</a>
         <a href="#pricing" className="hover:text-brand-500 transition-colors">Pricing</a>
         <a href="#faq" className="hover:text-brand-500 transition-colors">FAQ</a>
       </div>
@@ -48,7 +29,7 @@ const Navbar = ({ user, onLogout, onNavigate }) => (
               Login
             </button>
             <button onClick={() => onNavigate('/register')} className="btn-primary text-sm py-2">
-              Free mein try karo
+              Try for Free
             </button>
           </>
         )}
@@ -57,49 +38,47 @@ const Navbar = ({ user, onLogout, onNavigate }) => (
   </nav>
 );
 
-// ── Hero Section ─────────────────────────────────────────────────
+// ── Hero ─────────────────────────────────────────────────────────
 const Hero = ({ onNavigate }) => (
   <section className="pt-32 pb-20 px-4 text-center relative overflow-hidden">
-    {/* background blobs */}
     <div className="absolute top-20 left-1/4 w-72 h-72 bg-brand-50 rounded-full blur-3xl opacity-60 -z-10" />
     <div className="absolute top-40 right-1/4 w-56 h-56 bg-purple-50 rounded-full blur-3xl opacity-60 -z-10" />
 
-    <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-600 text-xs font-semibold px-4 py-2 rounded-full mb-6 animate-fade-up">
+    <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-600 text-xs font-semibold px-4 py-2 rounded-full mb-6">
       <ZapIcon />
       <span>AI-Powered · Gemini 1.5 Flash · Results in 5 sec</span>
     </div>
 
-    <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6 animate-fade-up">
-      Tera Resume kitna{' '}
+    <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+      How well does your resume{' '}
       <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-purple-500">
-        fit hai
+        match
       </span>
-      <br />us job ke liye?
+      <br />that job?
     </h1>
 
-    <p className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-10 animate-fade-up">
-      Resume upload karo · Job description paste karo · AI batayega exact score,
-      missing skills aur kaise improve karo — sab{' '}
-      <span className="font-semibold text-gray-700">5 seconds</span> mein.
+    <p className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-10">
+      Upload your resume · Paste the job description · Get exact match score,
+      missing skills and how to improve — all in{' '}
+      <span className="font-semibold text-gray-700">5 seconds</span>.
     </p>
 
-    <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up">
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
       <button onClick={() => onNavigate('/register')}
         className="btn-primary text-base gap-2 flex items-center justify-center">
-        Free mein analyze karo
+        Analyze for Free
         <ArrowIcon />
       </button>
       <button onClick={() => onNavigate('/login')}
         className="btn-secondary text-base">
-        Pehle se account hai? Login karo
+        Already have an account? Login
       </button>
     </div>
 
     <p className="mt-4 text-xs text-gray-400">
-      No credit card · Free score · ₹19 mein full report
+      No credit card · Free score · Full report at ₹19
     </p>
 
-    {/* ── Mini Preview Card ── */}
     <div className="mt-16 max-w-sm mx-auto card border border-gray-100 text-left shadow-xl shadow-gray-100">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm font-semibold text-gray-700">Match Score</span>
@@ -129,7 +108,7 @@ const Hero = ({ onNavigate }) => (
           <LockIcon />
           <span>Missing skills + Suggestions</span>
         </div>
-        <span className="text-xs font-bold text-brand-500">₹19 unlock</span>
+        <span className="text-xs font-bold text-brand-500">Unlock ₹19</span>
       </div>
     </div>
   </section>
@@ -137,20 +116,18 @@ const Hero = ({ onNavigate }) => (
 
 // ── How it works ─────────────────────────────────────────────────
 const steps = [
-  { n:'01', icon:<ZapIcon />, title:'Resume Upload Karo', desc:'PDF select karo — hum real-time mein text extract karte hain pdf-parse se.' },
-  { n:'02', icon:<BrainIcon />, title:'JD Paste Karo', desc:'LinkedIn ya Naukri se job description copy karo aur paste karo.' },
-  { n:'03', icon:<StarIcon />, title:'AI Analysis', desc:'Gemini 1.5 Flash dono compare karta hai aur score + gaps batata hai.' },
-  { n:'04', icon:<LockIcon />, title:'Full Report Unlock Karo', desc:'₹19 mein missing skills, suggestions aur strengths sab milega.' },
+  { n:'01', icon:<ZapIcon />, title:'Upload Your Resume', desc:'Select your PDF — we extract text in real-time using pdf-parse.' },
+  { n:'02', icon:<BrainIcon />, title:'Paste Job Description', desc:'Copy the JD from LinkedIn or Naukri and paste it here.' },
+  { n:'03', icon:<StarIcon />, title:'AI Analysis', desc:'Gemini 1.5 Flash compares both and gives you a score + skill gaps.' },
+  { n:'04', icon:<LockIcon />, title:'Unlock Full Report', desc:'Get missing skills, suggestions and strengths for just ₹19.' },
 ];
 
 const HowItWorks = () => (
   <section id="how" className="py-20 px-4 bg-gray-50">
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-          Kaise kaam karta hai?
-        </h2>
-        <p className="text-gray-500">4 simple steps — 5 seconds mein result</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">How does it work?</h2>
+        <p className="text-gray-500">4 simple steps — results in 5 seconds</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {steps.map((s, i) => (
@@ -170,22 +147,20 @@ const HowItWorks = () => (
 
 // ── Features ─────────────────────────────────────────────────────
 const features = [
-  { title:'Real AI Analysis',    desc:'Gemini 1.5 Flash — Google ka best model. Copy-paste result nahi, actual intelligence.' },
-  { title:'Exact Match Score',   desc:'0–100% score milta hai based on JD ke against tera resume.' },
-  { title:'Missing Skills',      desc:'Exactly pata chalta hai kya add karna hai resume mein job paane ke liye.' },
-  { title:'Actionable Tips',     desc:'Vague advice nahi — "Add AWS certification" jaisi specific suggestions.' },
-  { title:'Instant Result',      desc:'5 seconds. Koi email wait nahi, koi queue nahi.' },
-  { title:'Privacy Safe',        desc:'PDF parse hone ke baad delete ho jaata hai. Tera data store nahi hota.' },
+  { title:'Real AI Analysis', desc:'Gemini 1.5 Flash by Google. Not just keyword matching — actual intelligence that understands context.' },
+  { title:'Exact Match Score', desc:'Get a 0–100% score showing how well your resume matches the specific job description.' },
+  { title:'Missing Skills', desc:'Know exactly what to add to your resume to improve your chances of getting hired.' },
+  { title:'Actionable Tips', desc:'No vague advice — specific suggestions like "Add AWS certification" or "Add Docker projects".' },
+  { title:'Instant Results', desc:'5 seconds. No email wait, no queue, no signup required to see basic score.' },
+  { title:'Privacy Safe', desc:'PDF is deleted after parsing. We only store extracted text, encrypted and secure.' },
 ];
 
 const Features = () => (
   <section className="py-20 px-4">
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-          Kyun choose karo?
-        </h2>
-        <p className="text-gray-500">Dusre tools se kya alag hai</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Why choose ResumeAI?</h2>
+        <p className="text-gray-500">What makes us different from other tools</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map((f, i) => (
@@ -209,28 +184,28 @@ const plans = [
   {
     name: 'Free',
     price: '₹0',
-    desc: 'Basic score dekho',
-    features: ['Match % score', 'Matched skills', 'Summary analysis', 'Unlimited scans'],
+    desc: 'See your basic score',
+    features: ['Match % score', 'Matched skills list', 'Summary analysis', 'Unlimited scans'],
     locked: ['Missing skills', 'Improvement tips', 'Strengths analysis'],
-    cta: 'Free mein shuru karo',
+    cta: 'Start for Free',
     highlight: false,
   },
   {
     name: 'Basic Unlock',
     price: '₹19',
     desc: 'Per report',
-    features: ['Sab free wala', 'Missing skills list', 'Top 3 suggestions', 'Job fit score breakdown'],
+    features: ['Everything in Free', 'Missing skills list', 'Top 3 suggestions', 'Job fit breakdown'],
     locked: ['Resume rewrite tips'],
-    cta: 'Report unlock karo',
+    cta: 'Unlock Report',
     highlight: true,
   },
   {
     name: 'Full Report',
     price: '₹99',
     desc: 'Per report',
-    features: ['Sab basic wala', 'Full suggestions list', 'Resume rewrite tips', 'ATS optimization', 'Priority support'],
+    features: ['Everything in Basic', 'Full suggestions list', 'Resume rewrite tips', 'ATS optimization', 'Priority support'],
     locked: [],
-    cta: 'Full report lo',
+    cta: 'Get Full Report',
     highlight: false,
   },
 ];
@@ -240,7 +215,7 @@ const Pricing = ({ onNavigate }) => (
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-14">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Simple Pricing</h2>
-        <p className="text-gray-500">Pehle free mein try karo, tab decide karo</p>
+        <p className="text-gray-500">Try for free, then decide</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
         {plans.map((p, i) => (
@@ -261,14 +236,12 @@ const Pricing = ({ onNavigate }) => (
             <div className="space-y-2 mb-6">
               {p.features.map((f, j) => (
                 <div key={j} className="flex items-center gap-2 text-sm text-gray-700">
-                  <CheckIcon />
-                  {f}
+                  <CheckIcon />{f}
                 </div>
               ))}
               {p.locked.map((f, j) => (
                 <div key={j} className="flex items-center gap-2 text-sm text-gray-400">
-                  <LockIcon />
-                  {f}
+                  <LockIcon />{f}
                 </div>
               ))}
             </div>
@@ -289,19 +262,17 @@ const Pricing = ({ onNavigate }) => (
 
 // ── FAQ ───────────────────────────────────────────────────────────
 const faqs = [
-  { q:'Kya ye really AI use karta hai?',     a:'Haan! Google Gemini 1.5 Flash model use hota hai — ek bahut powerful language model jo resume aur JD dono ko deeply samajhta hai.' },
-  { q:'Mera PDF safe hai?',                  a:'Bilkul. PDF parse hone ke baad server se delete ho jaata hai. Hum sirf extracted text store karte hain woh bhi encrypted.' },
-  { q:'Ek hi resume multiple jobs ke liye?', a:'Haan! Har naye JD ke liye naya analysis karo. ₹19 per report hai, ek resume se 10 alag jobs check kar sakte ho.' },
-  { q:'Payment fail ho gayi toh?',           a:'Koi tension nahi — Razorpay handle karta hai. Failed payment pe automatically refund hota hai within 5-7 business days.' },
+  { q:'Does it really use AI?', a:'Yes! We use Google Gemini 1.5 Flash — a powerful language model that deeply understands both your resume and the job description.' },
+  { q:'Is my PDF safe?', a:'Absolutely. Your PDF is deleted from our servers immediately after parsing. We only store extracted text, encrypted and secure.' },
+  { q:'Can I use one resume for multiple jobs?', a:'Yes! Run a new analysis for each job description. At ₹19 per report, you can check 10 different jobs from one resume.' },
+  { q:'What if my payment fails?', a:'No worries — Razorpay handles all payments securely. Failed payments are automatically refunded within 5-7 business days.' },
 ];
 
 const FAQ = () => (
   <section id="faq" className="py-20 px-4">
     <div className="max-w-3xl mx-auto">
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-          Sawaal? Jawab yahan hain
-        </h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
       </div>
       <div className="space-y-4">
         {faqs.map((f, i) => (
@@ -320,18 +291,18 @@ const CTABanner = ({ onNavigate }) => (
   <section className="py-20 px-4">
     <div className="max-w-4xl mx-auto bg-gradient-to-br from-brand-500 to-purple-600 rounded-3xl p-12 text-center text-white">
       <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-        Aaj hi pata karo teri job ki chances
+        Find out your chances today
       </h2>
       <p className="text-brand-100 mb-8 text-lg">
-        Free mein shuru karo — credit card ki zarurat nahi
+        Start for free — no credit card needed
       </p>
       <button
         onClick={() => onNavigate('/register')}
         className="bg-white text-brand-600 font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform duration-200 shadow-xl">
-        Free Resume Analyze Karo →
+        Analyze Your Resume Free →
       </button>
       <p className="mt-4 text-xs text-brand-200">
-        Already 500+ students ne use kiya hai
+        500+ students have already used ResumeAI
       </p>
     </div>
   </section>
@@ -342,13 +313,13 @@ const Footer = () => (
   <footer className="border-t border-gray-100 py-10 px-4">
     <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
       <div className="flex items-center gap-2">
-        <div className="w-6 h-6 bg-brand-500 rounded-md flex items-center justify-center">
-          <BrainIcon />
+        <div className="w-6 h-6 bg-brand-500 rounded-md flex items-center justify-center text-white font-bold text-xs">
+          AI
         </div>
         <span className="font-bold text-gray-900">Resume<span className="text-brand-500">AI</span></span>
       </div>
       <p className="text-sm text-gray-400">
-        © 2025 ResumeAI · Made with ❤️ for Indian job seekers
+        © 2025 ResumeAI · Built for Indian job seekers
       </p>
       <div className="flex gap-6 text-sm text-gray-500">
         <a href="#" className="hover:text-brand-500 transition-colors">Privacy</a>
@@ -358,26 +329,3 @@ const Footer = () => (
     </div>
   </footer>
 );
-
-// ── Main Home Page ────────────────────────────────────────────────
-const Home = () => {
-  const navigate  = useNavigate();
-  const { user, logout } = useAuth();
-
-  const handleLogout = () => { logout(); navigate('/'); };
-
-  return (
-    <div className="min-h-screen">
-      <Navbar user={user} onLogout={handleLogout} onNavigate={navigate} />
-      <Hero       onNavigate={navigate} />
-      <HowItWorks />
-      <Features   />
-      <Pricing    onNavigate={navigate} />
-      <FAQ        />
-      <CTABanner  onNavigate={navigate} />
-      <Footer     />
-    </div>
-  );
-};
-
-export default Home;
