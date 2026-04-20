@@ -21,7 +21,7 @@ const Login = () => {
       toast.success('Welcome back! 👋');
       navigate('/upload');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login fail ho gaya');
+      toast.error(error.response?.data?.message || 'Login failed. Check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -30,8 +30,8 @@ const Login = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.title}>Login Karo</h2>
-        <p style={styles.sub}>Apna account access karo</p>
+        <h2 style={styles.title}>Login</h2>
+        <p style={styles.sub}>Access your account</p>
 
         <form onSubmit={handleSubmit}>
           <input
@@ -58,7 +58,7 @@ const Login = () => {
         </form>
 
         <p style={styles.link}>
-          Naya user hai? <Link to="/register">Register karo</Link>
+          Naya user hai? <Link to="/register">Register here</Link>
         </p>
       </div>
     </div>

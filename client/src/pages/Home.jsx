@@ -1,3 +1,22 @@
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+// ── Icons ────────────────────────────────────────────────────────
+const Icon = ({ d, size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth={2}
+    strokeLinecap="round" strokeLinejoin="round">
+    <path d={d} />
+  </svg>
+);
+
+const CheckIcon = () => <Icon d="M20 6L9 17l-5-5" />;
+const LockIcon  = () => <Icon d="M12 17v-2m-4-4V9a4 4 0 018 0v2M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z" />;
+const BrainIcon = () => <Icon d="M12 2a7 7 0 017 7c0 2.5-1 4.5-3 6l-1 5H9l-1-5C6 13.5 5 11.5 5 9a7 7 0 017-7z" />;
+const ZapIcon   = () => <Icon d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />;
+const StarIcon  = () => <Icon d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />;
+const ArrowIcon = () => <Icon d="M5 12h14M12 5l7 7-7 7" />;
+
 // ── Navbar ───────────────────────────────────────────────────────
 const Navbar = ({ user, onLogout, onNavigate }) => (
   <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
@@ -8,11 +27,13 @@ const Navbar = ({ user, onLogout, onNavigate }) => (
         </div>
         <span className="font-bold text-lg text-gray-900">Resume<span className="text-brand-500">AI</span></span>
       </div>
+
       <div className="hidden md:flex items-center gap-6 text-sm text-gray-600">
         <a href="#how" className="hover:text-brand-500 transition-colors">How it works</a>
         <a href="#pricing" className="hover:text-brand-500 transition-colors">Pricing</a>
         <a href="#faq" className="hover:text-brand-500 transition-colors">FAQ</a>
       </div>
+
       <div className="flex items-center gap-3">
         {user ? (
           <>
@@ -39,7 +60,7 @@ const Navbar = ({ user, onLogout, onNavigate }) => (
 );
 
 // ── Hero ─────────────────────────────────────────────────────────
-const Hero = ({ onNavigate }) => (
+const Hero = ({ onNavigate, user }) => (
   <section className="pt-32 pb-20 px-4 text-center relative overflow-hidden">
     <div className="absolute top-20 left-1/4 w-72 h-72 bg-brand-50 rounded-full blur-3xl opacity-60 -z-10" />
     <div className="absolute top-40 right-1/4 w-56 h-56 bg-purple-50 rounded-full blur-3xl opacity-60 -z-10" />
@@ -63,22 +84,42 @@ const Hero = ({ onNavigate }) => (
       <span className="font-semibold text-gray-700">5 seconds</span>.
     </p>
 
+    {/* ✅ Logged in vs Logged out buttons */}
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-      <button onClick={() => onNavigate('/register')}
-        className="btn-primary text-base gap-2 flex items-center justify-center">
-        Analyze for Free
-        <ArrowIcon />
-      </button>
-      <button onClick={() => onNavigate('/login')}
-        className="btn-secondary text-base">
-        Already have an account? Login
-      </button>
+      {user ? (
+        // ✅ User logged in — sirf dashboard button
+        <button
+          onClick={() => onNavigate('/upload')}
+          className="btn-primary text-base flex items-center justify-center gap-2">
+          Go to Dashboard
+          <ArrowIcon />
+        </button>
+      ) : (
+        // ✅ User logged out — register + login
+        <>
+          <button
+            onClick={() => onNavigate('/register')}
+            className="btn-primary text-base flex items-center justify-center gap-2">
+            Analyze for Free
+            <ArrowIcon />
+          </button>
+          <button
+            onClick={() => onNavigate('/login')}
+            className="btn-secondary text-base">
+            Already have an account? Login
+          </button>
+        </>
+      )}
     </div>
 
     <p className="mt-4 text-xs text-gray-400">
-      No credit card · Free score · Full report at ₹19
+      {user
+        ? `Welcome back! Ready to analyze your next job?`
+        : `No credit card · Free score · Full report at ₹19`
+      }
     </p>
 
+    {/* Preview Card — same rehega */}
     <div className="mt-16 max-w-sm mx-auto card border border-gray-100 text-left shadow-xl shadow-gray-100">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm font-semibold text-gray-700">Match Score</span>
@@ -92,12 +133,14 @@ const Hero = ({ onNavigate }) => (
               strokeDasharray="114 163" strokeLinecap="round"
               transform="rotate(-90 32 32)"/>
           </svg>
-          <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-green-600">70%</span>
+          <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-green-600">
+            70%
+          </span>
         </div>
         <div>
           <p className="text-xs text-gray-500 mb-1">Matched skills</p>
           <div className="flex flex-wrap gap-1">
-            {['React','Node.js','MongoDB'].map(s=>(
+            {['React', 'Node.js', 'MongoDB'].map(s => (
               <span key={s} className="tag-green">{s}</span>
             ))}
           </div>
@@ -114,12 +157,12 @@ const Hero = ({ onNavigate }) => (
   </section>
 );
 
-// ── How it works ─────────────────────────────────────────────────
+// ── How It Works ─────────────────────────────────────────────────
 const steps = [
-  { n:'01', icon:<ZapIcon />, title:'Upload Your Resume', desc:'Select your PDF — we extract text in real-time using pdf-parse.' },
-  { n:'02', icon:<BrainIcon />, title:'Paste Job Description', desc:'Copy the JD from LinkedIn or Naukri and paste it here.' },
-  { n:'03', icon:<StarIcon />, title:'AI Analysis', desc:'Gemini 1.5 Flash compares both and gives you a score + skill gaps.' },
-  { n:'04', icon:<LockIcon />, title:'Unlock Full Report', desc:'Get missing skills, suggestions and strengths for just ₹19.' },
+  { n: '01', icon: <ZapIcon />,   title: 'Upload Your Resume',     desc: 'Select your PDF — we extract text in real-time using pdf-parse.' },
+  { n: '02', icon: <BrainIcon />, title: 'Paste Job Description',   desc: 'Copy the JD from LinkedIn or Naukri and paste it here.' },
+  { n: '03', icon: <StarIcon />,  title: 'AI Analysis',             desc: 'Gemini 1.5 Flash compares both and gives you a score + skill gaps.' },
+  { n: '04', icon: <LockIcon />,  title: 'Unlock Full Report',      desc: 'Get missing skills, suggestions and strengths for just ₹19.' },
 ];
 
 const HowItWorks = () => (
@@ -132,7 +175,8 @@ const HowItWorks = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {steps.map((s, i) => (
           <div key={i} className="card group">
-            <div className="w-10 h-10 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center mb-4 group-hover:bg-brand-500 group-hover:text-white transition-colors duration-300">
+            <div className="w-10 h-10 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center mb-4
+              group-hover:bg-brand-500 group-hover:text-white transition-colors duration-300">
               {s.icon}
             </div>
             <p className="text-xs font-bold text-brand-500 mb-1">{s.n}</p>
@@ -147,12 +191,12 @@ const HowItWorks = () => (
 
 // ── Features ─────────────────────────────────────────────────────
 const features = [
-  { title:'Real AI Analysis', desc:'Gemini 1.5 Flash by Google. Not just keyword matching — actual intelligence that understands context.' },
-  { title:'Exact Match Score', desc:'Get a 0–100% score showing how well your resume matches the specific job description.' },
-  { title:'Missing Skills', desc:'Know exactly what to add to your resume to improve your chances of getting hired.' },
-  { title:'Actionable Tips', desc:'No vague advice — specific suggestions like "Add AWS certification" or "Add Docker projects".' },
-  { title:'Instant Results', desc:'5 seconds. No email wait, no queue, no signup required to see basic score.' },
-  { title:'Privacy Safe', desc:'PDF is deleted after parsing. We only store extracted text, encrypted and secure.' },
+  { title: 'Real AI Analysis',   desc: 'Gemini 1.5 Flash by Google. Not just keyword matching — actual intelligence that understands context.' },
+  { title: 'Exact Match Score',  desc: 'Get a 0–100% score showing how well your resume matches the specific job description.' },
+  { title: 'Missing Skills',     desc: 'Know exactly what to add to your resume to improve your chances of getting hired.' },
+  { title: 'Actionable Tips',    desc: 'No vague advice — specific suggestions like "Add AWS certification" or "Add Docker projects".' },
+  { title: 'Instant Results',    desc: '5 seconds. No email wait, no queue. Upload and get your score immediately.' },
+  { title: 'Privacy Safe',       desc: 'PDF is deleted after parsing. We only store extracted text, encrypted and secure.' },
 ];
 
 const Features = () => (
@@ -166,7 +210,7 @@ const Features = () => (
         {features.map((f, i) => (
           <div key={i} className="card">
             <div className="flex items-start gap-3">
-              <div className="mt-0.5 flex-shrink-0"><CheckIcon /></div>
+              <div className="mt-0.5 flex-shrink-0 text-green-500"><CheckIcon /></div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">{f.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
@@ -236,7 +280,7 @@ const Pricing = ({ onNavigate }) => (
             <div className="space-y-2 mb-6">
               {p.features.map((f, j) => (
                 <div key={j} className="flex items-center gap-2 text-sm text-gray-700">
-                  <CheckIcon />{f}
+                  <span className="text-green-500"><CheckIcon /></span>{f}
                 </div>
               ))}
               {p.locked.map((f, j) => (
@@ -249,7 +293,7 @@ const Pricing = ({ onNavigate }) => (
               onClick={() => onNavigate('/register')}
               className={`w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200
                 ${p.highlight
-                  ? 'bg-brand-500 hover:bg-brand-600 text-white shadow-lg shadow-brand-500/25 hover:scale-105'
+                  ? 'bg-brand-500 hover:bg-brand-600 text-white shadow-lg hover:scale-105'
                   : 'border border-gray-200 hover:border-brand-500 text-gray-700 hover:text-brand-500'}`}>
               {p.cta}
             </button>
@@ -262,17 +306,19 @@ const Pricing = ({ onNavigate }) => (
 
 // ── FAQ ───────────────────────────────────────────────────────────
 const faqs = [
-  { q:'Does it really use AI?', a:'Yes! We use Google Gemini 1.5 Flash — a powerful language model that deeply understands both your resume and the job description.' },
-  { q:'Is my PDF safe?', a:'Absolutely. Your PDF is deleted from our servers immediately after parsing. We only store extracted text, encrypted and secure.' },
-  { q:'Can I use one resume for multiple jobs?', a:'Yes! Run a new analysis for each job description. At ₹19 per report, you can check 10 different jobs from one resume.' },
-  { q:'What if my payment fails?', a:'No worries — Razorpay handles all payments securely. Failed payments are automatically refunded within 5-7 business days.' },
+  { q: 'Does it really use AI?',                    a: 'Yes! We use Google Gemini 1.5 Flash — a powerful language model that deeply understands both your resume and the job description.' },
+  { q: 'Is my PDF safe?',                           a: 'Absolutely. Your PDF is deleted from our servers immediately after parsing. We only store extracted text, encrypted and secure.' },
+  { q: 'Can I use one resume for multiple jobs?',   a: 'Yes! Run a new analysis for each job description. At ₹19 per report, you can check 10 different jobs from one resume.' },
+  { q: 'What if my payment fails?',                 a: 'No worries — Razorpay handles all payments securely. Failed payments are automatically refunded within 5-7 business days.' },
 ];
 
 const FAQ = () => (
   <section id="faq" className="py-20 px-4">
     <div className="max-w-3xl mx-auto">
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+          Frequently Asked Questions
+        </h2>
       </div>
       <div className="space-y-4">
         {faqs.map((f, i) => (
@@ -316,16 +362,44 @@ const Footer = () => (
         <div className="w-6 h-6 bg-brand-500 rounded-md flex items-center justify-center text-white font-bold text-xs">
           AI
         </div>
-        <span className="font-bold text-gray-900">Resume<span className="text-brand-500">AI</span></span>
+        <span className="font-bold text-gray-900">
+          Resume<span className="text-brand-500">AI</span>
+        </span>
       </div>
       <p className="text-sm text-gray-400">
         © 2025 ResumeAI · Built for Indian job seekers
       </p>
       <div className="flex gap-6 text-sm text-gray-500">
-        <a href="#" className="hover:text-brand-500 transition-colors">Privacy</a>
-        <a href="#" className="hover:text-brand-500 transition-colors">Terms</a>
-        <a href="#" className="hover:text-brand-500 transition-colors">Contact</a>
+        <button className="hover:text-brand-500 transition-colors">Privacy</button>
+        <button className="hover:text-brand-500 transition-colors">Terms</button>
+        <button className="hover:text-brand-500 transition-colors">Contact</button>
       </div>
     </div>
   </footer>
 );
+
+// ── Main Home Component ───────────────────────────────────────────
+const Home = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  return (
+    <div className="min-h-screen">
+      <Navbar user={user} onLogout={handleLogout} onNavigate={navigate} />
+      <Hero onNavigate={navigate} user={user} /> {/* ✅ user pass karo */}
+      <HowItWorks />
+      <Features />
+      <Pricing onNavigate={navigate} />
+      <FAQ />
+      <CTABanner onNavigate={navigate} />
+      <Footer />
+    </div>
+  );
+};
+
+export default Home;

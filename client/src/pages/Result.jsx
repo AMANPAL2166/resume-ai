@@ -71,11 +71,11 @@ const Result = () => {
             console.log('🎉 Verified:', verified);
             setFullData(verified.data);
             setIsPaid(true);
-            toast.success('Payment successful! Full report unlock ho gayi! 🎉');
+            toast.success('Payment successful! Your full has report unlocked! 🎉');
   
           } catch (err) {
             console.error('Verify error:', err);
-            toast.error('Payment verify nahi hua. Support se contact karo.');
+            toast.error('Payment has not verified. Support se contact karo.');
           }
         },
   
@@ -113,7 +113,7 @@ const Result = () => {
   
     } catch (error) {
       console.error('Payment error:', error);
-      toast.error(error.response?.data?.message || 'Payment start nahi hua');
+      toast.error(error.response?.data?.message || 'Payment has not started.');
     } finally {
       setLoading(false);
     }
@@ -124,7 +124,7 @@ const Result = () => {
 
       {/* Score Card */}
       <div style={styles.card}>
-        <h2 style={styles.title}>Tera Resume Score</h2>
+        <h2 style={styles.title}>Your Resume</h2>
 
         {/* Circular Score */}
         <div style={styles.scoreCircle}>
@@ -192,7 +192,7 @@ const Result = () => {
             {/* Unlock Options */}
             <div style={styles.unlockOverlay}>
               <p style={styles.lockIcon}>🔒</p>
-              <p style={styles.lockTitle}>Full Report Unlock Karo</p>
+              <p style={styles.lockTitle}>Unlock Full Report</p>
               <p style={styles.lockSub}>Missing skills, suggestions aur strengths dekho</p>
 
               <div style={styles.planRow}>
@@ -242,13 +242,13 @@ const Result = () => {
             </div>
 
             <div style={styles.successBadge}>
-              ✅ Full Report Unlock Ho Gayi!
+            ✅ Full Report Unlocked!
             </div>
           </>
         )}
 
         <button style={styles.analyzeBtn} onClick={() => navigate('/upload')}>
-          Naya Resume Analyze Karo
+        Analyze New Resume
         </button>
       </div>
     </div>

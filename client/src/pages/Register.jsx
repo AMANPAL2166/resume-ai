@@ -21,7 +21,7 @@ const Register = () => {
       toast.success('Account ban gaya! 🎉');
       navigate('/upload');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Kuch gadbad ho gayi');
+      toast.error(error.response?.data?.message || 'Something went wrong. Try again.');
     } finally {
       setLoading(false);
     }
@@ -30,15 +30,15 @@ const Register = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.title}>Account Banao</h2>
-        <p style={styles.sub}>Resume AI pe free register karo</p>
+        <h2 style={styles.title}>Create Account</h2>
+        <p style={styles.sub}>Register for free on ResumeAI</p>
 
         <form onSubmit={handleSubmit}>
           <input
             style={styles.input}
             type="text"
             name="name"
-            placeholder="Tera naam"
+            placeholder="Your Name "
             value={form.name}
             onChange={handleChange}
             required
@@ -63,12 +63,12 @@ const Register = () => {
             required
           />
           <button style={styles.btn} type="submit" disabled={loading}>
-            {loading ? 'Ho raha hai...' : 'Register Karo'}
+            {loading ? 'Ho raha hai...' : 'Register'}
           </button>
         </form>
 
         <p style={styles.link}>
-          Pehle se account hai? <Link to="/login">Login karo</Link>
+          Pehle se account hai? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

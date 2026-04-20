@@ -4,6 +4,8 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const fs = require('fs');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
+
 
 dotenv.config();
 connectDB();
@@ -42,6 +44,26 @@ app.use((req, res, next) => {
   console.log(`➡️  ${req.method} ${req.path}`);
   next();
 });
+
+
+// Analyze routes pe limit — spam se bachao
+const analyzeLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  // 15 minutes
+  max: 5,                     // 5 requests per window
+  message: { message: 'Too many requests. Please try again after 15 minutes.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Auth pe bhi limit lagao
+const authLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,  // 1 hour
+  max: 10,                    // 10 attempts per hour
+  message: { message: 'Too many login attempts. Try again after 1 hour.' }
+});
+
+app.use('/api/analyze', analyzeLimiter);
+app.use('/api/auth', authLimiter);
 
 // Routes
 app.use('/api/auth',    require('./routes/auth'));

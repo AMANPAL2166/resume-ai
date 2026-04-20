@@ -70,8 +70,8 @@ const Upload = () => {
 
         {step === 1 && (
           <>
-            <h2 style={styles.title}>Resume Upload Karo</h2>
-            <p style={styles.sub}>PDF format mein (max 5MB)</p>
+            <h2 style={styles.title}>Upload Your Resume</h2>
+            <p style={styles.sub}>PDF format only (max 5MB)</p>
 
             <div
               style={styles.dropzone}
@@ -80,7 +80,7 @@ const Upload = () => {
               {file ? (
                 <p style={{ color: '#6366f1', fontWeight: 600 }}>📄 {file.name}</p>
               ) : (
-                <p style={{ color: '#888' }}>Yahan click karo ya PDF drag karo</p>
+                <p style={{ color: '#888' }}>Click here or drag your PDF</p>
               )}
               <input
                 id="fileInput"
@@ -96,19 +96,19 @@ const Upload = () => {
               onClick={handleUpload}
               disabled={loading || !file}
             >
-              {loading ? 'Parse ho raha hai...' : 'Upload & Parse Karo →'}
+              {loading ? 'Parsing...' : 'Upload & Parse →'}
             </button>
           </>
         )}
 
         {step === 2 && (
           <>
-            <h2 style={styles.title}>Job Description Paste Karo</h2>
-            <p style={styles.sub}>LinkedIn ya Naukri se copy karo</p>
+            <h2 style={styles.title}>Paste Job Description</h2>
+            <p style={styles.sub}>Copy from LinkedIn or Naukri</p>
 
             <textarea
               style={styles.textarea}
-              placeholder="Yahan JD paste karo..."
+              placeholder="Paste the job description here..."
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
               rows={10}
@@ -119,14 +119,14 @@ const Upload = () => {
               onClick={handleMatch}
               disabled={loading || !jobDescription.trim()}
             >
-              {loading ? 'AI analyze kar raha hai... 🤖' : 'Match Karo & Score Dekho →'}
+              {loading ? 'AI analyzing... 🤖' : 'Match & See Score  →'}
             </button>
 
             <button
               style={styles.backBtn}
               onClick={() => setStep(1)}
             >
-              ← Wapas jao
+              ← Go Back
             </button>
           </>
         )}
