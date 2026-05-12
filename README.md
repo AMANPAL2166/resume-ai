@@ -1,4 +1,4 @@
-cat > /mnt/user-data/outputs/README.md << 'EOF'
+ 
 <div align="center">
 
 <img src="https://img.shields.io/badge/ResumeAI-AI%20Resume%20Analyzer-6366f1?style=for-the-badge&logo=artificial-intelligence&logoColor=white" alt="ResumeAI" />
@@ -314,5 +314,4 @@ MIT © [Aman Pal](https://github.com/AMANPAL2166)
 [![GitHub stars](https://img.shields.io/github/stars/AMANPAL2166/resume-ai?style=social)](https://github.com/AMANPAL2166/resume-ai)
 
 </div>
-EOF
-echo "README created!"
+ 
